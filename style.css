@@ -26,6 +26,7 @@ h1 {
     display: flex;
     justify-content: center;
     margin-bottom: 32px;
+    position: relative;
 }
 
 #search-bar {
@@ -77,4 +78,31 @@ h1 {
     color: #ccc;
     font-size: 1.1rem;
     text-align: center;
+}
+
+.suggestions-list {
+    position: absolute;
+    background: #232323;
+    border: 1px solid #444;
+    border-radius: 0 0 6px 6px;
+    width: calc(100% - 2px);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 10;
+    left: 0;
+    top: 100%;
+    display: none;
+}
+.suggestion-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    color: #fff;
+    border-bottom: 1px solid #333;
+    transition: background 0.2s;
+}
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+.suggestion-item:hover {
+    background: #333;
 }

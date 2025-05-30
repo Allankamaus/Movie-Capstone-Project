@@ -9,8 +9,9 @@
 <body>
     <div class="container">
         <h1>Movie App</h1>
-        <form class="search-form">
+        <form class="search-form" autocomplete="off">
             <input type="text" id="search-bar" placeholder="Search for a movie...">
+            <div id="suggestions" class="suggestions-list"></div>
             <button type="submit">Search</button>
         </form>
         <div id="video-player-placeholder">
