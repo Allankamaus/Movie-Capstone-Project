@@ -1,13 +1,10 @@
 const TMDB_API_KEY = 'ed1fe23f4da97b95e5b73a1438254d09';
 const searchForm = document.querySelector('.search-form');
 const searchBar = document.getElementById('search-bar');
-const videoPlaceholder = document.getElementById('video-player-placeholder');
 const movieInfo = document.getElementById('movie-info-placeholder');
 const suggestionsBox = document.getElementById('suggestions');
 let debounceTimeout = null;
 
-// Hide video player placeholder initially
-videoPlaceholder.style.display = 'none';
 
 searchForm.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -28,13 +25,12 @@ searchBar.addEventListener('input', function() {
 });
 
 function fetchMovie(title) {
-    videoPlaceholder.style.display = 'none';
     movieInfo.innerHTML = '<p>Searching...</p>';
     fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(title)}`)
         .then(res => res.json())
         .then(data => {
             if (data.results && data.results.length > 0) {
-                getMovieDetails(data.results[0].id);
+                showSearchResults(data.results);
             } else {
                 movieInfo.innerHTML = `<p>Movie not found.</p>`;
             }
@@ -44,7 +40,23 @@ function fetchMovie(title) {
         });
 }
 
+function showSearchResults(movies) {
+    movieInfo.innerHTML = movies.map(movie => `
+        <div class="search-result" data-id="${movie.id}" style="margin-bottom:24px;cursor:pointer;">
+            <img src="${movie.poster_path ? 'https://image.tmdb.org/t/p/w200' + movie.poster_path : ''}" alt="Poster" style="max-width:80px;vertical-align:middle;margin-right:16px;">
+            <span style="font-size:1.2em;">${movie.title} (${movie.release_date ? movie.release_date.substring(0,4) : ''})</span>
+        </div>
+    `).join('');
+    document.querySelectorAll('.search-result').forEach(item => {
+        item.addEventListener('click', function() {
+            const movieId = this.getAttribute('data-id');
+            getMovieDetails(movieId);
+        });
+    });
+}
+
 function getMovieDetails(movieId) {
+    movieInfo.innerHTML = '<p>Loading...</p>';
     fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}`)
         .then(res => res.json())
         .then(data => {
@@ -54,6 +66,7 @@ function getMovieDetails(movieId) {
             movieInfo.innerHTML = '<p>Error fetching movie details.</p>';
         });
 }
+
 
 function fetchSuggestions(query) {
     fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`)
@@ -72,8 +85,8 @@ function fetchSuggestions(query) {
         });
 }
 
+
 function showMovie(data) {
-    videoPlaceholder.style.display = 'flex';
     movieInfo.innerHTML = `
         <h2>${data.title} (${data.release_date ? data.release_date.substring(0,4) : ''})</h2>
         <img src="${data.poster_path ? 'https://image.tmdb.org/t/p/w200' + data.poster_path : ''}" alt="Poster" style="max-width:120px;float:left;margin-right:16px;">
@@ -81,7 +94,35 @@ function showMovie(data) {
         <p><strong>Plot:</strong> ${data.overview}</p>
         <p><strong>TMDB Rating:</strong> ${data.vote_average}</p>
         <div style="clear:both"></div>
+        <button id="add-favourite">Add to Favourites</button>
+        <button id="add-watchlist">Add to Watchlist</button>
     `;
+    document.getElementById('add-favourite').onclick = function() {
+        fetch('http://localhost:3001/api/favourites', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                movie_id: data.id,
+                title: data.title,
+                description: data.overview
+            })
+        }).then(res => res.json()).then(res => {
+            alert('Added to favourites!');
+        });
+    };
+    document.getElementById('add-watchlist').onclick = function() {
+        fetch('http://localhost:3001/api/watchlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                movie_id: data.id,
+                title: data.title,
+                description: data.overview
+            })
+        }).then(res => res.json()).then(res => {
+            alert('Added to watchlist!');
+        });
+    };
 }
 
 function showSuggestions(movies) {
@@ -91,13 +132,22 @@ function showSuggestions(movies) {
         </div>`
     ).join('');
     suggestionsBox.style.display = 'block';
+    document.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const movieId = this.getAttribute('data-id');
+            suggestionsBox.innerHTML = '';
+            suggestionsBox.style.display = 'none';
+            getMovieDetails(movieId);
+        });
+    });
 }
 
-suggestionsBox.addEventListener('click', function(e) {
-    if (e.target.classList.contains('suggestion-item')) {
-        const movieId = e.target.getAttribute('data-id');
-        suggestionsBox.innerHTML = '';
-        suggestionsBox.style.display = 'none';
-        getMovieDetails(movieId);
-    }
-});
+// Test TMDb API connection
+fetch(`https://api.themoviedb.org/3/movie/550?api_key=${TMDB_API_KEY}`)
+    .then(res => res.json())
+    .then(data => {
+        console.log('TMDb API test result:', data);
+    })
+    .catch(err => {
+        console.error('TMDb API connection error:', err);
+    });

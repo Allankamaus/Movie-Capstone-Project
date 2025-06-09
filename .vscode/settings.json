@@ -5,11 +5,11 @@
             "server": "localhost",
             "port": 5432,
             "driver": "PostgreSQL",
-            "name": "pg local",
-            "database": "db",
-            "username": "postgres",
-            "password": "1234",
-            "connectionTimeout": 30
+            "name": "local sql",
+            "database": "Movie database",
+            "password": "luxray3x",
+            "connectionTimeout": 30,
+            "username": "postgres"
         }
     ]
 }
