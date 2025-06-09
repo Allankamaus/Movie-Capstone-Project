@@ -1,0 +1,69 @@
+# Movie App Capstone Project
+
+A full-stack movie search and management web application using The Movie Database (TMDb) API, Node.js/Express, and PostgreSQL.
+
+## Features
+- Search for movies using TMDb API
+- Live movie suggestions as you type
+- View detailed movie information
+- Add movies to Favourites or Watchlist
+- Store favourites and watchlist in a PostgreSQL database
+
+## Technologies Used
+- Frontend: HTML, CSS, JavaScript
+- Backend: Node.js, Express
+- Database: PostgreSQL
+- API: TMDb (The Movie Database)
+
+## Setup Instructions
+
+### 1. Clone the Repository
+```
+git clone <your-repo-url>
+cd "Movie app capstone project"
+```
+
+### 2. Install Dependencies
+```
+npm install express pg cors
+```
+
+### 3. Configure PostgreSQL
+- Ensure PostgreSQL is installed and running.
+- Create a database named `Movie database`.
+- Create tables:
+
+```
+CREATE TABLE favourite_movies (
+    movie_id INTEGER PRIMARY KEY,
+    movie_name TEXT,
+    movie_description TEXT
+);
+
+CREATE TABLE watchlist_moveis (
+    movie_id INTEGER PRIMARY KEY,
+    movie_name TEXT,
+    movie_description TEXT
+);
+```
+- Update `conn.js` with your PostgreSQL username and password.
+
+### 4. Start the Backend Server
+```
+node server.js
+```
+
+### 5. Run the Frontend
+- Open `index.html` in your web browser.
+
+## Usage
+- Search for a movie in the search bar.
+- Click a result to view details.
+- Use the "Add to Favourites" or "Add to Watchlist" buttons to save movies.
+
+## Notes
+- Requires a valid TMDb API key (already included in the code for demo purposes).
+- Backend must be running for database features to work.
+
+## License
+This project is for educational purposes.
