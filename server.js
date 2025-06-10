@@ -36,3 +36,16 @@ app.post('/api/watchlist', async (req, res) => {
 });
 
 app.listen(3001, () => console.log('Server running on port 3001'));
+
+
+//Fetch favourites and watchlist
+app.get('/api/favourites', async (req, res) => {
+    try{
+        const result = await pool.query('SELECT * FROM favorite_movies');
+        res.json(result.rows);
+    }
+    catch(err){
+        console.error('Error fetching favourites:', err);
+        res.status(500).json({ error: 'Failed to fetch favourites'})
+    }
+});
