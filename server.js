@@ -11,12 +11,13 @@ app.post('/api/favourites', async (req, res) => {
     const { movie_id, title, description } = req.body;
     try {
         await pool.query(
-            'INSERT INTO favourite_movies (movie_id, movie_name, movie_description) VALUES ($1, $2, $3) ON CONFLICT (movie_id) DO NOTHING',
+            'INSERT INTO favorite_movies (movie_id, movie_name, movie_description) VALUES ($1, $2, $3) ON CONFLICT (movie_id) DO NOTHING',
             [movie_id, title, description]
         );
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
+        console.error('error adding to fasves', err);
     }
 });
 
@@ -25,7 +26,7 @@ app.post('/api/watchlist', async (req, res) => {
     const { movie_id, title, description } = req.body;
     try {
         await pool.query(
-            'INSERT INTO watchlist_moveis (movie_id, movie_name, movie_description) VALUES ($1, $2, $3) ON CONFLICT (movie_id) DO NOTHING',
+            'INSERT INTO watchlist_movies (movie_id, movie_name, movie_description) VALUES ($1, $2, $3) ON CONFLICT (movie_id) DO NOTHING',
             [movie_id, title, description]
         );
         res.json({ success: true });
@@ -35,17 +36,24 @@ app.post('/api/watchlist', async (req, res) => {
     }
 });
 
-app.listen(3001, () => console.log('Server running on port 3001'));
-
-
-//Fetch favourites and watchlist
+// Get all favourite movies
 app.get('/api/favourites', async (req, res) => {
-    try{
+    try {
         const result = await pool.query('SELECT * FROM favorite_movies');
         res.json(result.rows);
-    }
-    catch(err){
-        console.error('Error fetching favourites:', err);
-        res.status(500).json({ error: 'Failed to fetch favourites'})
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
+
+// Get all watchlist movies
+app.get('/api/watchlist', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM watchlist_movies');
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.listen(3001, () => console.log('Server running on port 3001'));

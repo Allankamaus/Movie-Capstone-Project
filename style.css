@@ -106,3 +106,29 @@ h1 {
 .suggestion-item:hover {
     background: #333;
 }
+
+.movie-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+}
+.movie-list li {
+    background: #232323;
+    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    font-size: 1.1rem;
+    text-align: left;
+}
+.movie-list li strong {
+    font-size: 1.2rem;
+    color: #e50914;
+}
+.movie-list li span {
+    display: block;
+    margin-top: 8px;
+    color: #ccc;
+    font-size: 1rem;
+}
