@@ -11,4 +11,12 @@
 #     Movie_Name VARCHAR(255),
 #     Movie_Description TEXT
 # );
-# use to make database connection
+# 
+# comment table
+# CREATE TABLE comments (
+#     comment_id SERIAL PRIMARY KEY,
+#     movie_id INT,
+#     movie_name VARCHAR(255),
+#     comment TEXT,
+#     FOREIGN KEY (movie_id) REFERENCES favorite_movies(movie_id)
+# );

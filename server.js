@@ -56,4 +56,29 @@ app.get('/api/watchlist', async (req, res) => {
     }
 });
 
+// Get all comments for a movie
+app.get('/api/comments/:movie_id', async (req, res) => {
+    const { movie_id } = req.params;
+    try {
+        const result = await pool.query('SELECT * FROM comments WHERE movie_id = $1 ORDER BY comment_id ASC', [movie_id]);
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Add a comment to a movie
+app.post('/api/comments', async (req, res) => {
+    const { movie_id, movie_name, comment } = req.body;
+    try {
+        await pool.query(
+            'INSERT INTO comments (movie_id, movie_name, comment) VALUES ($1, $2, $3)',
+            [movie_id, movie_name, comment]
+        );
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.listen(3001, () => console.log('Server running on port 3001'));
