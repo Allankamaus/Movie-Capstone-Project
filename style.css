@@ -1,5 +1,7 @@
 body {
-    background: #181818;
+    background: url('images/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-attachment: fixed;
     color: #fff;
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
@@ -36,6 +38,9 @@ h1 {
     border-radius: 6px 0 0 6px;
     font-size: 1rem;
     outline: none;
+    height: 48px;
+    box-sizing: border-box;
+    margin-top: 2px;
 }
 
 .search-form button {
@@ -131,4 +136,101 @@ h1 {
     margin-top: 8px;
     color: #ccc;
     font-size: 1rem;
+}
+
+.button, button, .home-btn {
+    background: #e50914;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 8px 8px 8px 0;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    font-family: inherit;
+    text-decoration: none;
+    display: inline-block;
+}
+.button:hover, button:hover, .home-btn:hover {
+    background: #b0060f;
+    color: #fff;
+    text-decoration: none;
+}
+.home-btn {
+    margin-bottom: 24px;
+    margin-top: 8px;
+    display: inline-block;
+}
+
+#your-movies-btn {
+    display: inline-block;
+    background: #1e90ff;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin: 16px 0 0 0;
+    text-decoration: none;
+    border: none;
+    transition: background 0.2s;
+    font-weight: bold;
+}
+#your-movies-btn:hover {
+    background: #1565c0;
+    color: #fff;
+    text-decoration: none;
+}
+
+#search-btn {
+    background: #e50914;
+    color: #fff;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    padding: 0 32px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: bold;
+    height: 48px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin-top: 2px; /* Move up to align with search bar */
+}
+#search-btn:hover {
+    background: #b0060f;
+}
+
+#add-favourite {
+    background: #43a047;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin: 8px 8px 8px 0;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: bold;
+}
+#add-favourite:hover {
+    background: #2e7031;
+}
+
+#add-watchlist {
+    background: #fbc02d;
+    color: #232323;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin: 8px 0 8px 0;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: bold;
+}
+#add-watchlist:hover {
+    background: #c49000;
 }
